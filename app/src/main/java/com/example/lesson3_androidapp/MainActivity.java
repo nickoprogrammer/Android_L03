@@ -14,11 +14,14 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String TEXT_CONTENTS = "MainActivity_textView";
     private static final String LOG_TAG = "Nickoprogrammer";
+    private static int numTimesClicked = 0;
+    
     private Button button;
     private TextView textView;
 
-    private int numTimesClicked = 0;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(LOG_TAG,"onCreate");
@@ -80,14 +83,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         Log.d(LOG_TAG,"onSaveInstanceState");
+        outState.putString(TEXT_CONTENTS, textView.getText().toString());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
         Log.d(LOG_TAG,"onRestoreInstanceState");
+        super.onRestoreInstanceState(savedInstanceState);
+
+        String savedText = savedInstanceState.getString(TEXT_CONTENTS);
+        textView.setText(savedText);
     }
 }
